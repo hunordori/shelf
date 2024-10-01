@@ -1,30 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Reordered Books</title>
-</head>
+{% block title %}
+Reordered Books
+{% endblock %}
 
-<body>
-    <h1>Reordered Books</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Call Number</th>
-                <th>Barcode</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for call_number, barcode in result %}
-            <tr>
-                <td>{{ call_number }}</td>
-                <td>{{ barcode }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <a href="{% url 'reorder_books' %}">Go Back</a>
-</body>
+{% block content %}
+<h1 class="mt-4">Reordered Books</h1>
 
-</html>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Position</th>
+            <th>Call Number (Ordered)</th>
+            <th>Barcode (Ordered)</th>
+            <th>Original Call Number</th>
+            <th>Original Barcode</th>
+            <th>Position Change</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for position, ordered_call, ordered_barcode, original_call, original_barcode, position_change, abs_position_change in result %}
+        <tr{% if position_change != 0 %} class="table-warning"{% endif %}>
+            <td>{{ position }}</td>
+            <td>{{ ordered_call }}</td>
+            <td class="text-muted fst-italic small">{{ ordered_barcode }}</td>
+            <td>{{ original_call }}</td>
+            <td class="text-muted fst-italic small">{{ original_barcode }}</td>
+            <td>
+                {% if position_change > 0 %}
+                    ↑{{ abs_position_change }}
+                {% elif position_change < 0 %}
+                    ↓{{ abs_position_change }}
+                {% else %}
+                    No Change
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'reorder_books' %}">Go Back</a>
+{% endblock %}

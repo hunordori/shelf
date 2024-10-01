@@ -1,18 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Reorder Books</title>
-</head>
+{% block title %}
+Reorder Books
+{% endblock %}
 
-<body>
-    <h1>Reorder Books by Call Number</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
-    </form>
-</body>
+{% block content %}
+<h1 class="mt-4">Reorder Books</h1>
 
-</html>
+<form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+        <!-- Manually placing the label -->
+        <label for="id_barcodes" class="form-label">Barcodes:</label>
+        <!-- Manually placing the textarea with Bootstrap class for form control -->
+        <textarea id="id_barcodes" name="barcodes" class="form-control" rows="10">{{ form.barcodes.value }}</textarea>
+        <!-- Manually placing the help text -->
+        <small class="form-text text-muted">{{ form.barcodes.help_text }}</small>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}
