@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reordered Books</title>
+</head>
+
+<body>
+    <h1>Reordered Books</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Call Number</th>
+                <th>Barcode</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for call_number, barcode in result %}
+            <tr>
+                <td>{{ call_number }}</td>
+                <td>{{ barcode }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'reorder_books' %}">Go Back</a>
+</body>
+
+</html>
