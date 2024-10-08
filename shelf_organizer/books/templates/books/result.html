@@ -10,27 +10,29 @@ Reordered Books
 <table class="table">
     <thead>
         <tr>
-            <th>Position</th>
+            <th>New Position</th>
             <th>Call Number (Ordered)</th>
             <th>Barcode (Ordered)</th>
+            <th>Original Position</th>
             <th>Original Call Number</th>
             <th>Original Barcode</th>
             <th>Position Change</th>
         </tr>
     </thead>
     <tbody>
-        {% for position, ordered_call, ordered_barcode, original_call, original_barcode, position_change, abs_position_change in result %}
-        <tr{% if position_change != 0 %} class="table-warning"{% endif %}>
-            <td>{{ position }}</td>
-            <td>{{ ordered_call }}</td>
-            <td class="text-muted fst-italic small">{{ ordered_barcode }}</td>
-            <td>{{ original_call }}</td>
-            <td class="text-muted fst-italic small">{{ original_barcode }}</td>
+        {% for row in result %}
+        <tr{% if row.position_change != 0 %} class="table-warning"{% endif %}>
+            <td>{{ row.new_position }}</td>
+            <td>{{ row.ordered_call_number }}</td>
+            <td class="text-muted fst-italic small">{{ row.ordered_barcode }}</td>
+            <td>{{ row.original_position }}</td>
+            <td>{{ row.original_call_number }}</td>
+            <td class="text-muted fst-italic small">{{ row.original_barcode }}</td>
             <td>
-                {% if position_change > 0 %}
-                    ↑{{ abs_position_change }}
-                {% elif position_change < 0 %}
-                    ↓{{ abs_position_change }}
+                {% if row.position_change > 0 %}
+                    ↑{{ row.abs_position_change }}
+                {% elif row.position_change < 0 %}
+                    ↓{{ row.abs_position_change }}
                 {% else %}
                     No Change
                 {% endif %}
@@ -39,6 +41,16 @@ Reordered Books
         {% endfor %}
     </tbody>
 </table>
+
+<!-- Display minimal moves if any -->
+<h2 class="mt-4">Minimal Moves to Correct Order:</h2>
+<ol>
+    {% for move in moves %}
+    <li>{{ move }}</li>
+    {% empty %}
+    <li>No moves required. The order is already correct.</li>
+    {% endfor %}
+</ol>
 
 <a href="{% url 'reorder_books' %}">Go Back</a>
 {% endblock %}
