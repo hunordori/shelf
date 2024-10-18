@@ -102,7 +102,7 @@ def reorder_books(request):
                         }
                     )
 
-            # Generate minimal moves
+            # Generate minimal moves with Bootstrap styling for position
             current_books = barcodes[:]  # Original order of barcodes
             moves = []
             for i, sorted_book in enumerate(sorted_books):
@@ -111,12 +111,18 @@ def reorder_books(request):
                     if i > 0:
                         previous_book = sorted_books[i - 1]
                         moves.append(
-                            f"Move {sorted_book.call_number} ({sorted_book.barcode}) "
-                            f"after {previous_book.call_number} ({previous_book.barcode})."
+                            f"Move {sorted_book.call_number}"
+                            f"({sorted_book.barcode}) "
+                            f"from position <span class='text-danger'>{barcode_to_original_position[sorted_book.barcode]}</span> "
+                            f"after {previous_book.call_number} "
+                            f"({previous_book.barcode})."
                         )
                     else:
                         moves.append(
-                            f"Move {sorted_book.call_number} ({sorted_book.barcode}) to the front."
+                            f"Move {sorted_book.call_number}"
+                            f"({sorted_book.barcode}) "
+                            f"from position {barcode_to_original_position[sorted_book.barcode]} "
+                            f"to the front."
                         )
                     # Simulate moving the book in the current_books list
                     current_books.insert(i, current_books.pop(correct_position))
