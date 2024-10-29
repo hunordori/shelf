@@ -1,0 +1,10 @@
+{% extends 'base.html' %} {% block title %} Reorder Books {% endblock %}
+<!-- prettier-ignore -->
+{% block content %}
+<h1 class="mt-4">Book make_list</h1>
+<ul>
+  {% for book in books %}
+  <li>{{book}}</li>
+  {% endfor %}
+</ul>
+{% endblock %}

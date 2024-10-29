@@ -1,9 +1,11 @@
 import re
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from .models import Book
 from .forms import BarcodeScanForm
 
 
+@login_required
 def call_number_key(call_number):
     """
     Generate a key for sorting call numbers.
@@ -30,6 +32,7 @@ def call_number_key(call_number):
     return key
 
 
+@login_required
 def reorder_books(request):
     if request.method == "POST":
         form = BarcodeScanForm(request.POST)
@@ -136,3 +139,8 @@ def reorder_books(request):
         form = BarcodeScanForm()
 
     return render(request, "books/reorder_books.html", {"form": form})
+
+
+@login_required
+def books(request):
+    return render(request, "books/books.html", {"books": Book.objects.all()})
