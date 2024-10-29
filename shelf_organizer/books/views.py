@@ -5,7 +5,6 @@ from .models import Book
 from .forms import BarcodeScanForm
 
 
-@login_required
 def call_number_key(call_number):
     """
     Generate a key for sorting call numbers.
