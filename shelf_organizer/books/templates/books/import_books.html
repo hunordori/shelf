@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block content %}
+<h2>Import Books</h2>
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <input type="file" name="import_file" accept=".csv" />
+  <button type="submit">Import CSV</button>
+</form>
+
+<form method="post">
+  {% csrf_token %}
+  <button
+    type="submit"
+    name="clear_books"
+    onclick="return confirm('Are you sure you want to delete all books?');"
+  >
+    Clear All Books
+  </button>
+</form>
+
+{% if messages %}
+<ul>
+  {% for message in messages %}
+  <li>{{ message }}</li>
+  {% endfor %}
+</ul>
+{% endif %} {% endblock %}
