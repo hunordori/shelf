@@ -1,7 +1,9 @@
+from zipfile import Path
 """
 URL configuration for shelf_organizer project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
+from turtledemo.chaos import h
     https://docs.djangoproject.com/en/5.1/topics/http/urls/
 Examples:
 Function views
@@ -17,10 +19,11 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-from shelf_organizer.views import welcome
+from shelf_organizer.views import welcome, help
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("help/", view=help, name="help"),
     path("books/", include("books.urls")),
     path("auth/", include("django.contrib.auth.urls")),
     path("", view=welcome, name="welcome"),

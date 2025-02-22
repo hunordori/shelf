@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+<!-- prettier-ignore -->
+
+{% block content %}
+<h1>Help</h1>
+
+<h2>Importing Books</h2>
+<p>
+    To import books, click on the "Import Books" button in the navigation bar or
+    use this link: <a href="{% url 'import_books' %}">Import Books</a>.
+</p>
+
+<h2>Reordering Books</h2>
+<p>Make sure you have the correct books imported</p>
+<ol>
+    <li>
+        Go to the
+        <a href="{% url 'import_books' %}" target="_blank">Reorder</a> page
+    </li>
+    <li>Scan the barcodes*</li>
+    <li>When you are done, click the "Submit" button</li>
+    <li>On the result page, you will see the correct order of the books</li>
+</ol>
+
+<p>
+    *It helps if you set your scanner's "end charachter" to return. Usually it
+    is the defualt.
+</p>
+
+<h2>Using the "Result" page</h2>
+
+<h3>The table</h3>
+<p>
+    The table displays the correct order of the book and the position changes.
+</p>
+
+<h3>Minimal Moves</h3>
+<p>
+    Calculates the least amount of moves required to reorder the books. Use the
+    checkbox to mark the step completed.
+</p>
+{% endblock %}
