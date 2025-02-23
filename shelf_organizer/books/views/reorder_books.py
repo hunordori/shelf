@@ -5,30 +5,61 @@ from ..models import Book
 from ..forms import BarcodeScanForm
 
 
+import re
+
 def call_number_key(call_number):
     """
-    Generate a key for sorting call numbers.
+    Generate a key for sorting Library of Congress (LC) call numbers.
+    - First section (letters) is sorted alphabetically.
+    - Second section (numbers) is treated as a decimal.
+    - Third section (Cutter numbers) is stripped of dots and split piece-by-piece.
+    - Remaining sections are sorted numerically/alphabetically.
     """
 
     def alphanumeric_sort(text):
-        """Convert numbers to zero-padded strings, keep strings in lowercase."""
-        if re.match(r"^\d+$", text):
-            return text.zfill(10)  # Pad integers with leading zeros
-        elif re.match(r"^\d+\.\d+$", text):
-            integer_part, fractional_part = text.split(".", 1)
-            return f"{integer_part.zfill(10)}.{fractional_part.ljust(10, '0')}"
-        else:
-            return text.lower()  # Keep strings as lowercase
+        """Process numbers and Cutter numbers correctly."""
 
+        # Handle section numbers with decimals (25.3 → 25.3)
+        if re.match(r"^\d+\.\d+$", text):
+            return float(text)
+
+        # Handle whole numbers (98 → 98)
+        elif re.match(r"^\d+$", text):
+            return int(text)
+
+        # Handle Cutter numbers (e.g., C598, C8, B3912, B392)
+        elif re.match(r"^[A-Za-z]+\d+$", text):
+            letter_part = "".join(re.findall(r"[A-Za-z]+", text))
+            number_part = "".join(re.findall(r"\d+", text))
+            return [letter_part.lower()] + list(number_part)  # Split numbers digit-by-digit
+
+        else:
+            return text.lower()  # Alphabetical sorting for letters
+
+    # **Step 1**: Split call number into sections
     parts = re.split(r"\s+", call_number)
+
     key = []
-    for part in parts:
-        chunks = re.split(r"(\d+\.\d+|\d+)", part)
+    for i, part in enumerate(parts):
+        # **Step 2**: Treat all Cutter numbers (third section) as if they never had a dot
+        if i == 2:  # Cutter section
+            part = part.replace(".", "")  # Remove dots from Cutter numbers
+
+        # **Step 3**: Split each section into meaningful groups
+        chunks = re.split(r"(\d+\.\d+|\d+|[A-Za-z]+\d+)", part)
+
         for chunk in chunks:
             if chunk:
                 value = alphanumeric_sort(chunk)
-                key.append(value)
+                if isinstance(value, list):
+                    key.extend(value)
+                else:
+                    key.append(value)
+
     return key
+
+
+
 
 
 @login_required
