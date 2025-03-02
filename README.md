@@ -4,6 +4,8 @@ ShELF is a web-based application designed to help librarians and library staff e
 
 Cobuilt with [@zeedmund](https://github.com/zeedmund)
 
+![Screenshot of Shelf](https://github.com/hunordori/shelf/blob/main/screenshots/Result%20Page%202.jpg)
+
 # How to install it?
 
 ## Manual Installation
