@@ -2,6 +2,8 @@
 
 ShELF is a web-based application designed to help librarians and library staff efficiently shelf-read books. It's primary goal is to minimize human error in this often tedious and labor-intensive task, which is essential for regular inventory control. This application is especially beneficial for individuals who may have health conditions that affect focus and recall, as well as for library staff who are new to the LOC Call number system. ShELF is intended to be integrated into a regular shelf-reading schedule, offering an in-house solution to address limited staff availability and resources.
 
+Cobuilt with [@zeedmund](https://github.com/zeedmund)
+
 # How to install it?
 
 ## Manual Installation
