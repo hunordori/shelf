@@ -4,9 +4,6 @@ from django.contrib.auth.decorators import login_required
 from ..models import Book
 from ..forms import BarcodeScanForm
 
-
-import re
-
 def call_number_key(call_number):
     """
     Generate a key for sorting Library of Congress (LC) call numbers.
